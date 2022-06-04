@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Unitravel  Crear Hotel</title>
+</h:head>
+<h:body>
+    <p:panel header="Crear Hotel">
+        <h:form>
+            <h:panelGrid columns="2" cellpadding="7">
+
+                <p:outputLabel for="NombreHotel" value="Nombre del hotel: " />
+                <p:inputText id="NombreHotel" type="text" value="#{hotelBean.hotel.nombre}"
+                             required="true" />
+
+                <p:outputLabel for="Direccion" value="Dirección del hotel: " />
+                <p:inputText id="Direccion" type="text" value="#{hotelBean.hotel.direccion}"
+                             required="true"/>
+
+                <p:outputLabel for="NumEstrellas" value="Numero de estrellas del hotel: " />
+                <p:inputText id="NumEstrellas" type="number" value="#{hotelBean.hotel.numEstrellas}" />
+
+                <p:outputLabel for="TelefonoHotel" value="Telefono del hotel: " />
+                <p:inputText id="TelefonoHotel" type="text" value="#{hotelBean.hotel.telefono}" />
+
+                <p:outputLabel for="Descripcion" value="Descripción del hotel : " />
+                <p:inputTextarea id="Descripcion"  value="#{hotelBean.hotel.descripcion}"
+                             required="true" />
+                <p:outputLabel value="Ciudad: " for="ciudadHotel:  " />
+                <p:selectOneMenu id="ciudadHotel" value="#{hotelBean.hotel.ciudad}" required="true"
+                                 converter="#{ciudadConverter}">
+                    <f:selectItem itemLabel="Seleccione la ciudad" noSelectionOption="true" />
+                    <f:selectItems value="#{hotelBean.ciudades}" var="ciudad" itemLabel="#{ciudad.nombre}"
+                                   itemValue="#{ciudad}"/>
+
+                </p:selectOneMenu>
+
+
+                <p:outputLabel for="imagenes_hotel" value="Imágenes: " />
+                <p:fileUpload id="imagenes_hotel"
+
+                              listener="#{hotelBean.subirImagenes}" mode="advanced"
+                              multiple="true" sizeLimit="1000000" fileLimit="5"
+                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
+
+                <p:outputLabel value="Caracteristicas: " for="caracteristicasHotel:  " />
+                <p:selectManyCheckbox id="caracteristicasHotel" value="#{hotelBean.hotel.caracteristica}"
+                                      required="true" converter="#{caracteristicasConverter}">
+                    <f:selectItems value="#{hotelBean.caracteristicasHotel}" var="caracteristicaHotel"
+                                   itemLabel="#{caracteristicaHotel.nombre}"
+                                   itemValue="#{caracteristicaHotel}"/>
+
+                </p:selectManyCheckbox>
+
+
+            </h:panelGrid>
+            <p:growl showDetail="true"/>
+
+            <p:commandButton onclick="PF('crear_habitacion').show()"  value="Adicionar habitación"
+                             update="@form" icon="pi pi-plus" />
+            <br/>
+            <br/>
+            <p:commandButton action="#{hotelBean.crearHotel()}" value="Crear Hotel"
+                             update="@form" icon="pi pi-check" />
+            <p:growl showDetail="true"/>
+        </h:form>
+    </p:panel>
+
+    <p:dialog header="Crear Habitacion" widgetVar="crear_habitacion" modal="true" showEffect="fade"
+              draggable="false" minimizable="true" maximizable="true">
+        <h:form>
+            <h:panelGrid columns="2" cellpadding="7">
+
+                <p:outputLabel for="Numero" value="Numero de la Habitación: " />
+                <p:inputText id="Numero"  value="#{hotelBean.habitacion.numero}"
+                             required="true"/>
+
+                <p:outputLabel for="Capacidad" value="Capacidad: " />
+                <p:inputText id="Capacidad"  value="#{hotelBean.habitacion.capacidad}"
+                             required="true" />
+
+
+                <p:outputLabel for="Precio" value="Precio: " />
+                <p:inputText  type="number" id="Precio" value="#{hotelBean.habitacion.precio}"
+                             required="true"/>
+
+                <p:outputLabel value="Camas: " for="camas:  " />
+                <p:selectManyCheckbox id="camas" value="#{hotelBean.habitacion.cama}"
+                                      required="true" converter="#{camaConverter}">
+                    <f:selectItems value="#{hotelBean.camas}" var="cama"
+                                   itemLabel="#{cama.nombre}"
+                                   itemValue="#{cama}" />
+
+                </p:selectManyCheckbox>
+
+
+                <p:outputLabel value="Caracteristicas: " for="caracteristicasHabitacion:  " />
+                <p:selectManyCheckbox id="caracteristicasHabitacion" value="#{hotelBean.habitacion.caracteristica}"
+                                      required="true" converter="#{caracteristicasConverter}">
+                    <f:selectItems value="#{hotelBean.caracteristicasHabitacion}" var="caracteristicaHabitacion"
+                                   itemLabel="#{caracteristicaHabitacion.nombre}"
+                                   itemValue="#{caracteristicaHabitacion}"/>
+
+                </p:selectManyCheckbox>
+
+
+                <p:outputLabel for="imagenes_habitacion" value="Imágenes de la habitación: " />
+                <p:fileUpload id="imagenes_habitacion"
+
+
+                              listener="#{hotelBean.subirImagenesHabitacion}" mode="advanced"
+                              multiple="true" sizeLimit="1000000" fileLimit="5"
+                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
+
+            </h:panelGrid>
+            <p:commandButton action="#{hotelBean.crearHabitacion}" value="Crear Habitacion"
+                             update="@form" icon="pi pi-plus" />
+            <p:growl showDetail="true"/>
+        </h:form>
+    </p:dialog>
+</h:body>
+</html>
