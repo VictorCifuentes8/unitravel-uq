@@ -18,6 +18,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class CategoriaDescuento implements Serializable {
 
+
     @Column(length = 1)
     private boolean estado;
 

@@ -23,6 +23,6 @@ public interface AdministradorRepo extends JpaRepository<Administrador, String> 
     @Query("select a from AdministradorHotel a where a.cedula = :cedulaAdministradorHotel")
     Optional<AdministradorHotel> obtenerAdministradorHotelId(String cedulaAdministradorHotel);
 
-    Optional<Administrador>findByPasswordAndEmail(String password, String email);
+   Optional<Administrador> findByPasswordAndEmail(String password, String email);
 
 }

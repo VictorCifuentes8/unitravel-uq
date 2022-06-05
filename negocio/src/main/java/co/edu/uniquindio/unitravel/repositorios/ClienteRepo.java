@@ -1,6 +1,8 @@
 package co.edu.uniquindio.unitravel.repositorios;
 
 import co.edu.uniquindio.unitravel.entidades.Cliente;
+import co.edu.uniquindio.unitravel.entidades.Persona;
+import co.edu.uniquindio.unitravel.entidades.Reserva;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +24,9 @@ public interface ClienteRepo extends JpaRepository<Cliente, String> {
     Optional<Cliente>clientesEncontrados2(String email, String contraseña);
 
     Optional<Cliente> findByEmailAndPassword(String email, String password);
+
+    @Query("select c,r from Cliente c left join c.reservas r where r.cliente.cedula = :cedula")
+    List<Reserva> obtenerReservas(String cedula);
 
     Optional<Cliente> findByEmail(String correo);
 

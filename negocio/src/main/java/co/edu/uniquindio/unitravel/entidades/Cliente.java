@@ -1,6 +1,8 @@
 package co.edu.uniquindio.unitravel.entidades;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -29,6 +31,7 @@ public class Cliente extends Persona implements Serializable {
     private List<Comentario> comentarios;
 
     @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<String> telefonos;
 
     public Cliente(String cedula, String nombre, @Positive int edad, @Email String email, String password) {

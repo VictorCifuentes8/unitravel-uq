@@ -5,18 +5,9 @@ import java.util.List;
 
 public interface UnitravelServicio {
 
+    // Validar login de los usuarios
+    Persona validarLogin(String email, String password) throws Exception;
 
-    Cliente loginCliente(String email, String password) throws Exception;
-
-    AdministradorHotel loginAdministradorHotel(String email, String password) throws Exception;
-
-    Administrador loguearAdministrador(String email, String password) throws Exception;
-
-    String recuperarContrasenia(String email) throws Exception;
-
-    String recuperarContraseniaAdminHotel(String email) throws Exception;
-
-    String recuperarContraseniaAdmin(String email) throws Exception;
 
     //Listar ciudades
     List<Ciudad> listarCiudades();

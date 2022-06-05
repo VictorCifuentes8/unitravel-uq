@@ -7,7 +7,6 @@ import co.edu.uniquindio.unitravel.repositorios.HotelRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdministradorHotelServicioImp implements AdministradorHotelServicio {
@@ -69,15 +68,17 @@ public class AdministradorHotelServicioImp implements AdministradorHotelServicio
     //Gestionar Habitaciones.
     @Override
     public Habitacion crearHabitacion(Habitacion habitacion) throws Exception {
-        Habitacion habitacionEncontrada = obtenerHabitacion(habitacion.getNumero());
+        Habitacion habitacionEncontrada = obtenerHabitacion(habitacion.getCodigo());
         if(habitacionEncontrada != null) {
             throw new Exception("Ya existe una habitación con ese número");
         }
         return habitacionRepo.save(habitacion);
     }
 
-    public Habitacion obtenerHabitacion(int numero) throws Exception {
-        return habitacionRepo.findByNumero(numero).orElse(null);
+
+    @Override
+    public Habitacion obtenerHabitacion(Integer codigo) throws Exception {
+        return habitacionRepo.findByNumero(codigo).orElse(null);
     }
 
   }

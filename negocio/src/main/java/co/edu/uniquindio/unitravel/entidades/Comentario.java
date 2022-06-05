@@ -4,6 +4,7 @@ import co.edu.uniquindio.unitravel.servicios.UnitravelServicio;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,14 +23,22 @@ public class Comentario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ToString.Include
     @Column(length = 4)
+    @Min(1) @Max(1000)
     private Integer codigo;
+
 
     @Column(nullable = false)
     @ToString.Include
+    @Size(max = 50, message = "El nombre debe tener minimo 1 y maximo 50 caracteres"
+            , min = 1)
+    @NotBlank(message = "Por favor escriba el nombre de la ciudad")
     private String comentario;
 
-    @Column(length = 1)
+
     @ToString.Include
+    @PositiveOrZero
+    @Column(length = 1)
+    @Max(5)
     private Integer calificacion;
 
     @Column(nullable = false)

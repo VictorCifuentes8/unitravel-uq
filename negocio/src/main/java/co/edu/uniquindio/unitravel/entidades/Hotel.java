@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,10 +22,14 @@ public class Hotel implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 4)
     @ToString.Include
+    @PositiveOrZero
     private Integer codigo;
 
     @Column(length = 40,nullable = false)
     @ToString.Include
+    @Size(max = 40, message = "El nombre debe tener minimo 1 y maximo 40 caracteres"
+            , min = 1)
+    @NotBlank(message = "Por favor escriba el nombre de la ciudad")
     private String nombre;
 
     @Column(length = 100,nullable = false,unique = true)
@@ -35,6 +40,7 @@ public class Hotel implements Serializable{
 
     @Column(length = 10)
     @ToString.Include
+    @Max(5)
     private Integer numEstrellas;
 
     @Lob

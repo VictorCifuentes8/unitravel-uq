@@ -60,18 +60,7 @@ public class AdministradorServicioTest {
 
     }
 
-    @Test
-    @Sql("classpath:dataset.sql")
-    public void loguearAdmnistrador() {
 
-        try {
-            Administrador administradorLogueado = unitravelServicio.loguearAdministrador("lauramaqwrt@gmail.com", "4567");
-            Assertions.assertNotNull(administradorLogueado);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Test
     @Sql("classpath:dataset.sql")

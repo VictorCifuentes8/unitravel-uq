@@ -3,6 +3,9 @@ package co.edu.uniquindio.unitravel.entidades;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,12 +19,16 @@ public class Silla implements Serializable {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @PositiveOrZero
     @Column(length = 4)
     private Integer codigo;
 
+    @Column(length = 3)
+    @PositiveOrZero
     private Integer numero;
 
     @Column(length = 3, nullable = false, unique = true)
+    @PositiveOrZero
     private Integer posicion;
 
     @Column(length = 9, nullable = false)

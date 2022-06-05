@@ -11,11 +11,6 @@ import java.io.Serializable;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Administrador extends Trabajador implements Serializable {
 
-
-    public Administrador(String cedula, String nombre, int edad, String email, String password) {
-        super(cedula, nombre, edad, email, password);
-    }
-
     public Administrador() {
         super();
     }

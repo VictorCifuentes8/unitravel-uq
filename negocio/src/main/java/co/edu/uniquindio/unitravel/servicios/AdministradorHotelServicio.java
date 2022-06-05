@@ -15,12 +15,10 @@ public interface AdministradorHotelServicio {
 
     //Crear habitacion
     Habitacion crearHabitacion(Habitacion habitacion) throws Exception;
-
+    Habitacion obtenerHabitacion(Integer codigo) throws Exception;
 
 
     //Gestionar Hoteles
-
-
 
     //Obtener un hotel por nombre
     Hotel obtenerHotel(String nombre)throws Exception;
@@ -32,6 +30,7 @@ public interface AdministradorHotelServicio {
     Hotel modificarHotel(Hotel hotel) throws Exception;
     //Listar los hoteles registrados.
     List<Hotel> listarHoteles();
+
 
 
 }

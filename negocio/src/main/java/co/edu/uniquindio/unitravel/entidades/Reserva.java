@@ -4,6 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,8 +22,9 @@ public class Reserva implements Serializable {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 50)
+    @Column(length = 4)
     @ToString.Include
+    @PositiveOrZero
     private Integer codigo;
 
     @Future
@@ -44,15 +48,17 @@ public class Reserva implements Serializable {
     private double precioTotal;
 
     @EqualsAndHashCode.Include
-    @Column(length = 1, nullable = false)
+    @Column(length = 2, nullable = false)
     private int estado;
 
     @EqualsAndHashCode.Include
-    @Column(length = 1, nullable = false)
+    @Column(length = 2, nullable = false)
+    @Min(1) @Max(99)
     private int cantidadPersonasMayores;
 
     @EqualsAndHashCode.Include
-    @Column(length = 1, nullable = false)
+    @Column(length = 2, nullable = false)
+    @Min(1) @Max(99)
     private int cantidadPersonasMenores;
 
     @EqualsAndHashCode.Include

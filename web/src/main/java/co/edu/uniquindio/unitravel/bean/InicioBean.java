@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
@@ -42,15 +43,8 @@ public class InicioBean implements Serializable {
         habitaciones = clienteServicio.listarHabitaciones();
         ciudades = clienteServicio.listarCiudades();
     }
-
-    public String irRegistro(){
-        return "registrarCliente?faces-redirect=true";
-
-    }
-
-    public String irDetalleHotel(String codigoHotel){
-        return "detalleHotel?faces-redirect=true&amp;hotelId=" + codigoHotel;
-
+    public String irDetalleHotel(String codigoHotel) {
+        return "generales/detalleHotel?faces-redirect=true&amp;hotelId=" +codigoHotel;
     }
 }
 

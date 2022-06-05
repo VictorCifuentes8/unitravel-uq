@@ -2,6 +2,7 @@ package co.edu.uniquindio.unitravel.servicios;
 
 import co.edu.uniquindio.unitravel.entidades.*;
 import co.edu.uniquindio.unitravel.repositorios.*;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -52,6 +53,9 @@ public class ClienteServicioImp implements ClienteServicio{
         if(clienteEmail != null){
             throw new Exception("El correo del cliente ya se encuentra registrado");
         }
+
+        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+        cliente.setPassword(passwordEncryptor.encryptPassword(cliente.getPassword()));
         return clienteRepo.save(cliente);
     }
 
@@ -103,12 +107,8 @@ public class ClienteServicioImp implements ClienteServicio{
 
 
     @Override
-    public List<Hotel> buscarHotelesPorDestino(String nombreCiudad) throws Exception {
-        Optional<Ciudad> ciudad = ciudadRepo.findByNombre(nombreCiudad);
-        if(ciudad.isEmpty()) {
-            throw new Exception("La ciudad no existe");
-        }
-        return hotelRepo.listarHotelesCiudad(nombreCiudad);
+    public List<Hotel> buscarHotelesPorDestino(Integer codigoCiudad) {
+        return hotelRepo.listarHotelesCiudad(codigoCiudad);
     }
 
     @Override
@@ -128,6 +128,11 @@ public class ClienteServicioImp implements ClienteServicio{
     @Override
     public List<Ciudad> listarCiudades(){
         return ciudadRepo.findAll();
+    }
+
+    @Override
+    public List<Reserva> listarReservas(String cedula) {
+        return clienteRepo.obtenerReservas(cedula);
     }
 
 
@@ -267,6 +272,8 @@ public class ClienteServicioImp implements ClienteServicio{
         Silla silla = sillaRepo.obtenerSilla(vuelo.getCodigo(),codigoSilla);
         return silla;
     }
+
+
 
     @Override
     public ReservaHabitacion crearReservaHabitacion(int codigo, Habitacion habitacion, Reserva reserva) {

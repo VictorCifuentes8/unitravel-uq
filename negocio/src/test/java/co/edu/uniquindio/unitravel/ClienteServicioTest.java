@@ -79,29 +79,7 @@ public class ClienteServicioTest {
         Assertions.assertEquals(1, listaClientes.size());
     }
 
-    @Test
-    @Sql("classpath:dataset.sql")
-    public void loginClienteTest() {
-        try{
-            Cliente cliente = unitravelServicio.loginCliente("luisa@gmail.com","8521");
-            Assertions.assertNotNull(cliente);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-    }
-
-    @Test
-    @Sql("classpath:dataset.sql")
-    public void recuperarContraseniaTest() throws Exception {
-        Cliente cliente = clienteServicio.obtenerCliente("8524");
-        try {
-            String password = unitravelServicio.recuperarContrasenia(cliente.getEmail());
-            Assertions.assertNotNull(password);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
 
 
@@ -112,12 +90,6 @@ public class ClienteServicioTest {
         listaVuelosDestino.forEach(System.out::println);
     }
 
-    @Test
-    @Sql("classpath:dataset.sql")
-    public void buscarHotelesDestinoTest() throws Exception {
-        List<Hotel> listaHotelesDestino = clienteServicio.buscarHotelesPorDestino("Circasia");
-        listaHotelesDestino.forEach(System.out::println);
-    }
 
 
 }

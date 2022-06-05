@@ -46,6 +46,8 @@ public class HotelBean implements Serializable {
     @Setter
     private List<Caracteristica> caracteristicasHabitacion;
 
+    @Value(value = "#{seguridadBean.persona}")
+    private Persona personaSesion;
     @Getter
     @Setter
     private List<Cama> camas;
@@ -121,10 +123,9 @@ public class HotelBean implements Serializable {
             if(habitaciones.size() > 0) {
 
                 hotel.setFotosHotel(imagenes);
-                AdministradorHotel adminHotel = hotelServicio.obtenerAdminHotel("111");
+                hotel.setAdministradorHotel((AdministradorHotel) personaSesion);
+
                 Hotel hotelCreado = hotelServicio.crearHotel(hotel);
-
-
                 habitaciones.forEach(h -> {
                     try {
                         h.setHotel(hotelCreado);
@@ -133,7 +134,10 @@ public class HotelBean implements Serializable {
                         e.printStackTrace();
                     }
                 });
-                return "registroExitoso?faces-redirect=true";
+                FacesMessage mensaje = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta de Registro",
+                        "El Registro se realizo con exito");
+                FacesContext.getCurrentInstance().addMessage("mensajeBean",mensaje);
+
             }else {
                 FacesMessage mensaje = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta",
                         "Es necesario asignar habitaciones al hotel");

@@ -46,7 +46,6 @@ public class ClienteBean implements Serializable {
         try {
 
             clienteServicio.registrarCliente(cliente);
-
             FacesMessage mensaje = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta de Registro",
                     "El Registro se realizo con exito");
             FacesContext.getCurrentInstance().addMessage("mensajeBean",mensaje);

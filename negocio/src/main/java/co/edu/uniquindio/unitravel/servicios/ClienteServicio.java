@@ -39,7 +39,7 @@ public interface ClienteServicio {
     Silla obtenerSilla(Vuelo vuelo, int codigoSilla);
 
     //Buscar hoteles por la ciudad de destino
-    List<Hotel> buscarHotelesPorDestino(String nombreCiudad) throws Exception;
+    List<Hotel> buscarHotelesPorDestino(Integer codigoCiudad);
 
     //Buscar Hoteles por el nombre
     List<Hotel> buscarHotelesPorNombre(String nombreHotel);
@@ -51,6 +51,7 @@ public interface ClienteServicio {
 
     List<Ciudad> listarCiudades();
 
+    List<Reserva> listarReservas(String cedula);
 
     Habitacion obtenerHabitacionCodigo(int numero) throws Exception;
 

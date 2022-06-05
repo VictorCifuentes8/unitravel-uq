@@ -25,19 +25,6 @@ public class AdministradorHotelServicioTest {
     @Autowired
     private UnitravelServicio unitravelServicio;
 
-    @Test
-    @Sql("classpath:dataset.sql")
-    public void loguearAdmnistradorHotel() {
-
-        try {
-            AdministradorHotel administradorHotelLogueado =
-                    unitravelServicio.loginAdministradorHotel("laura@gmail.com", "4567");
-            //Assertions.assertNull(administradorHotelLogueado);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Test
     @Sql("classpath:dataset.sql")

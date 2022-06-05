@@ -3,6 +3,8 @@ package co.edu.uniquindio.unitravel.servicios;
 
 import co.edu.uniquindio.unitravel.entidades.*;
 import co.edu.uniquindio.unitravel.repositorios.*;
+import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -10,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UnitravelServicioImp implements UnitravelServicio{
+public class UnitravelServicioImp implements UnitravelServicio {
 
 
     //Inicializacion de los repositorios necesarios.
@@ -30,7 +32,7 @@ public class UnitravelServicioImp implements UnitravelServicio{
                                 CiudadRepo ciudadRepo, HotelRepo hotelRepo,
                                 HabitacionRepo habitacionRepo, CamaRepo camaRepo,
                                 ComentarioRepo comentarioRepo,
-                                CaracteristicaRepo caracteristicaRepo){
+                                CaracteristicaRepo caracteristicaRepo, ClienteRepo clienteRepo) {
 
         this.administradorHotelRepo = administradorHotelRepo;
         this.hotelRepo = hotelRepo;
@@ -43,63 +45,46 @@ public class UnitravelServicioImp implements UnitravelServicio{
         this.comentarioRepo = comentarioRepo;
     }
 
-
     @Override
-    public Cliente loginCliente(String email, String password) throws Exception {
-        Optional<Cliente> cliente = clienteRepo.findByEmailAndPassword(email, password);
-        if(cliente.isEmpty()){
-            throw new Exception("Los datos de autenticación son erroneos");
+    public Persona validarLogin(String email, String password) throws Exception {
+        try {
+            StrongPasswordEncryptor strongPasswordEncryptor = new StrongPasswordEncryptor();
+            Persona usuario = clienteRepo.findByEmail(email).orElse(null);
+            if (usuario == null) {
+                usuario = administradorHotelRepo.findByEmail(email).orElse(null);
+            } else {
+                if (!strongPasswordEncryptor.checkPassword(password, usuario.getPassword())) {
+                    throw new Exception("La contraseña es incorrecta.");
+                } else {
+                    return usuario;
+                }
+            }
+
+            if (usuario == null) {
+                usuario = administradorRepo.findByEmail(email).orElse(null);
+            } else {
+                if (!strongPasswordEncryptor.checkPassword(password, usuario.getPassword())) {
+                    throw new Exception("La contraseña es incorrecta.");
+                } else {
+                    return usuario;
+                }
+
+            }
+            if (usuario == null) {
+                throw new Exception("Los datos de autenticación son incorrectos.");
+            } else {
+                if (!strongPasswordEncryptor.checkPassword(password, usuario.getPassword())) {
+                    throw new Exception("La contraseña es incorrecta.");
+                } else {
+                    return usuario;
+                }
+            }
+            }catch (EncryptionOperationNotPossibleException e){
+                throw new Exception("La contraseña es incorrecta.");
+            }
+
         }
-        return cliente.get();
-    }
 
-    @Override
-    public AdministradorHotel loginAdministradorHotel(String email, String password) throws Exception {
-        Optional<AdministradorHotel> administradorHotel  =
-                administradorHotelRepo.findByPasswordAndEmail(email, password);
-        if(administradorHotel.isEmpty()){
-            throw new Exception("Los datos de autenticación son erroneos");
-        }
-        return administradorHotel.get();
-    }
-
-    @Override
-    public Administrador loguearAdministrador(String email, String password) throws Exception {
-
-        Optional<Administrador> administradorOp = administradorRepo.findByPasswordAndEmail(password,email);
-
-        if(administradorOp.isEmpty()){
-            throw new Exception("Incorrecto ingreso de usuario y contraseña");
-        }
-        return administradorOp.get();
-    }
-
-    @Override
-    public String recuperarContrasenia(String email) throws Exception {
-        Optional<Cliente> cliente = clienteRepo.findByEmail(email);
-        if(cliente.isEmpty()){
-            throw new Exception("El Cliente no existe");
-        }
-        return cliente.get().getPassword();
-    }
-
-    @Override
-    public String recuperarContraseniaAdminHotel(String email) throws Exception {
-        Optional<AdministradorHotel> administradorHotel = administradorHotelRepo.findByEmail(email);
-        if(administradorHotel.isEmpty()){
-            throw new Exception("El Cliente no existe");
-        }
-        return administradorHotel.get().getPassword();
-    }
-
-    @Override
-    public String recuperarContraseniaAdmin(String email) throws Exception {
-        Optional<Administrador> administrador = administradorRepo.findByEmail(email);
-        if(administrador.isEmpty()){
-            throw new Exception("El Cliente no existe");
-        }
-        return administrador.get().getPassword();
-    }
 
 
     @Override
@@ -138,9 +123,8 @@ public class UnitravelServicioImp implements UnitravelServicio{
     }
 
     @Override
-    //Obtener un hotel por codigo
-    public Hotel obtenerHotelCodigo(Integer codigo)throws Exception{
-        return hotelRepo.findByCodigo(codigo).orElse(null);
+    public Hotel obtenerHotelCodigo(Integer codigoHotel) throws Exception {
+        return hotelRepo.findById(codigoHotel).orElseThrow(() -> new Exception("Hotel no encontrado"));
     }
 
     @Override

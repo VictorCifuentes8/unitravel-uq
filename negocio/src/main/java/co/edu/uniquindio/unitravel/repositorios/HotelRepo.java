@@ -18,6 +18,10 @@ public interface HotelRepo extends JpaRepository<Hotel, Integer> {
     @Query("select h from Hotel h where lower(h.nombre) like concat('%',lower(:nombre), '%' ) ")
     List<Hotel> buscarPorNombreHotel(String nombre);
 
+    //obtener hoteles por codigo de la ciudad
+    @Query("select h from Hotel h where h.ciudad.codigo = :codigoCiudad")
+    List<Hotel> listarHotelesCiudad( Integer codigoCiudad);
+
     //Obtener hoteles por codigo
     Optional<Hotel> findByCodigo (int codigo);
 
@@ -43,5 +47,8 @@ public interface HotelRepo extends JpaRepository<Hotel, Integer> {
     //Cree una consulta que devuelva una lista con todos los hoteles que contengan en su nombre una cadena de búsqueda. Use LIKE.
     @Query("select h from Hotel h where h.nombre like '%tel%'")
     List<Hotel> busquedaNombreHotelPorCadena();
+
+
+
 }
 

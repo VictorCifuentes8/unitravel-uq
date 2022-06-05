@@ -6,85 +6,17 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Página de Inicio</title>
-    <h:outputStylesheet library="css" name="bootstrap.min.css"/>
-    <h:outputStylesheet library="css" name="style.css"/>
-    <h:outputScript library="js" name="bootstrap.bundle.min.js"/>
-</h:head>
+<ui:composition template="/WEB-INF/template.xhtml" >
+    <ui:define name="title">Inicio</ui:define>
 
-<h:body>
+    <ui:define name="content">
 
-    <div id="encabezado">
-        <div class="px-3 py-2 color-principal text-white">
-            <div class="container">
-                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                        <h:graphicImage library="img" name="iconoUnitravel.png" styleClass="icono-p" />
-                        <span class="fs-5" >Unitravel</span>
-                    </a>
-
-                    <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                        <li>
-                            <a href="/" class="nav-link text-active">
-                                <i class="pi pi-wallet d-block mx-auto mb-1 icon-menu" > </i>
-                                Inicio
-                            </a>
-                        </li>
-                        <li>
-                            <a href="crearHotel.xhtml" class="nav-link text-white">
-                                <i class="pi pi-home d-block mx-auto mb-1 icon-menu" > </i>
-                                Crear Hotel
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="reservasCliente.xhtml" class="nav-link text-white">
-                                <i class="pi pi-book d-block mx-auto mb-1 icon-menu" > </i>
-                                Reservas Cliente
-                            </a>
-                        </li>
-                        <li>
-                            <a href="registrarCliente.xhtml" class="nav-link text-white">
-                                <i class="pi pi-user d-block mx-auto mb-1 icon-menu" > </i>
-                                Registrarse
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="px-3 py-2 border-bottom mb-3">
-            <div class="container d-flex flex-wrap justify-content-center">
-                <h:form id="busqueda_hotel" styleClass="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
-                    <div class="input-search ui-inputgroup">
-                        <p:inputText placeholder="¿Que hotel desea buscar?" value="#{busquedaBean.busqueda}"/>
-                        <p:commandButton update="@form" icon="pi pi-search" action="#{busquedaBean.buscar()}"/>
-                    </div>
-                </h:form>
-                <div class="text-end">
-                    <h:form>
-                    <button type="button" class="btn btn-light text-dark me-2">Iniciar Sesion</button>
-                    <p:commandButton value="Registrarse" class="btn btn-primary"
-                                     action="#{inicioBean.irRegistro}"/>
-                    </h:form>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-
-    <div id="contenido" >
-        <div class="container">
             <p>Hoteles por destino</p>
             <p:carousel value="#{inicioBean.ciudades}" var="ciudad" numVisible="3" numScroll="1" circular="true"
                         autoplayInterval="4000" >
                 <div class="card m-2 item-ciudad" >
-                    <a href="hotelesDestino.xhtml?ciudad=#{ciudad.codigo}" >
+                    <a href="generales/hotelesDestino.xhtml?ciudad=#{ciudad.codigo}">
                     <div class="img-ciudad">
                         <img src="#{ciudad.urlImagen}" alt="Imagen Ciudad" />
                     </div>
@@ -120,9 +52,7 @@
                         </div>
                         <div class="col-lg-2 col-md-1 align-self-center" >
                             <p:commandButton value="Ver detalle" action="#{inicioBean.irDetalleHotel(hotel.codigo)}"
-                                             styleClass="ui-button-raised"
-
-                                             icon="pi pi-arrow-right" iconPos="right" />
+                                             styleClass="ui-button-raised" icon="pi pi-arrow-right" iconPos="right" />
                         </div>
                     </div>
                     </p:dataViewListItem>
@@ -137,31 +67,16 @@
                         <h5 class="card-title">#{hotel.nombre}</h5>
                         <p class="card-text">#{hotel.ciudad.nombre}</p>
                         <hr />
-                        <p:commandButton value="Ver detalle" action="#{inicioBean.irDetalleHotel(hotel.codigo)}"
-                                         styleClass="ui-button-raised"
-
-                                         icon="pi pi-arrow-right" iconPos="right" />
+                            <p:commandButton value="Ver detalle" action="#{inicioBean.irDetalleHotel(hotel.codigo)}"
+                                             styleClass="ui-button-raised" icon="pi pi-arrow-right" iconPos="right" />
 
                         </div>
                         </div>
                     </p:dataViewGridItem>
                 </p:dataView>
             </h:form>
-        </div>
-    </div>
+    </ui:define>
 
-    <div class="container">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <div class="col-md-4 flex align-items-center">
-                <span class="text-muted">2022 Unitravel, Inc</span>
-            </div>
+</ui:composition>
 
-            <ul class="nav col-md-4 justify-content-end list=unstyled d-flex">
-                <li class="m s-3"><a class="text-muted" href="#"><i class="pi pi-twitter icon-menu"></i></a></li>
-                <li class="ms-3"><a class="text-muted" href="#"><i class="pi pi-instagram icon-menu"></i></a></li>
-                <li class="ms-3"><a class="text-muted" href="#"><i class="pi pi-facebook icon-menu"></i></a></li>
-            </ul>
-        </footer>
-    </div>
-</h:body>
 </html>
